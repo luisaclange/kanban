@@ -1,47 +1,69 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
+  <q-page class="column items-center">
+    <div style="max-width: 1600px" class="full-width">
+      <q-tab-panels v-model="tab" animated>
+        <q-tab-panel name="home">
+          <span>Colaboradores</span>
+
+          <div class="row">
+            <div
+              v-for="colaborador in colaboradores"
+              :key="colaborador.id"
+              class="q-pa-sm col-3"
+            >
+              <q-card flat bordered>
+                <q-card-section>
+                  <span>{{ colaborador.nome }}</span>
+                </q-card-section>
+                <q-card-section>
+                  <q-card flat class="bg-grey-9">
+                    <q-card-section>
+                      <q-badge>Hairo</q-badge>
+                      <q-badge>Em andamento</q-badge>
+                    </q-card-section>
+                    <q-card-section>
+                      Fazer detalhamento do gráfico de barras
+                    </q-card-section>
+                  </q-card>
+                </q-card-section>
+              </q-card>
+            </div>
+
+            <div
+              v-for="colaborador in colaboradores"
+              :key="colaborador.id"
+              class="q-pa-sm col-3"
+            >
+              <q-card
+                flat
+                bordered
+                class="full-height flex justify-center items-center"
+                style="border-style: dashed"
+              >
+                <q-icon name="mdi-plus" size="xl" />
+              </q-card>
+            </div>
+          </div>
+        </q-tab-panel>
+        <q-tab-panel name="kanban">
+          <span>Kanban</span>
+        </q-tab-panel>
+      </q-tab-panels>
+    </div>
   </q-page>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/ExampleComponent.vue';
-
 defineOptions({
-  name: 'IndexPage'
+  name: 'IndexPage',
 });
 
-const todos = ref<Todo[]>([
+const tab = ref('home');
+const colaboradores = ref([
   {
     id: 1,
-    content: 'ct1'
+    nome: 'Mario Ayala',
   },
-  {
-    id: 2,
-    content: 'ct2'
-  },
-  {
-    id: 3,
-    content: 'ct3'
-  },
-  {
-    id: 4,
-    content: 'ct4'
-  },
-  {
-    id: 5,
-    content: 'ct5'
-  }
 ]);
-
-const meta = ref<Meta>({
-  totalCount: 1200
-});
 </script>
