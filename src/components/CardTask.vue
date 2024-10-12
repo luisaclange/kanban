@@ -1,5 +1,5 @@
 <template>
-  <q-card flat class="bg-grey-9">
+  <q-card flat class="bg-grey-9" @click="openNewTaskDialog">
     <q-card-section>
       <!-- <q-badge>{{ task.projeto }}</q-badge> -->
       <q-badge>{{ task.status }}</q-badge>
@@ -9,11 +9,24 @@
 </template>
 
 <script setup lang="ts">
+import { useQuasar } from 'quasar';
 import ITask from 'src/interfaces/task';
+import NewTaskDialog from './NewTaskDialog.vue';
 
-interface props {
+const $q = useQuasar();
+
+interface IProps {
   task: ITask;
 }
 
-withDefaults(defineProps<props>(), {});
+const props = withDefaults(defineProps<IProps>(), {});
+
+const openNewTaskDialog = () => {
+  $q.dialog({
+    component: NewTaskDialog,
+    componentProps: {
+      task: props.task,
+    },
+  });
+};
 </script>

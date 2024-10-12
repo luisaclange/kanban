@@ -3,32 +3,10 @@
     <div style="max-width: 1600px" class="full-width">
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="home">
-          <span>Colaboradores</span>
-
-          <div class="row">
-            <div
-              v-for="colaborador in workers_store.workers"
-              :key="colaborador.id"
-              class="q-pa-sm col-3"
-            >
-              <CardWorker :colaborador="colaborador" />
-            </div>
-
-            <div class="q-pa-sm col-3">
-              <q-card
-                flat
-                bordered
-                class="full-height flex justify-center items-center"
-                style="border-style: dashed; min-height: 200px"
-                @click="openNewWorkerDialog"
-              >
-                <q-icon name="mdi-plus" size="xl" />
-              </q-card>
-            </div>
-          </div>
+          <HomePanel />
         </q-tab-panel>
         <q-tab-panel name="kanban">
-          <span>Kanban</span>
+          <KanbanPanel :worker="worker" @back="backHome" />
         </q-tab-panel>
       </q-tab-panels>
     </div>
@@ -36,40 +14,24 @@
 </template>
 
 <script setup lang="ts">
-import { useQuasar } from 'quasar';
-import CardWorker from 'src/components/CardWorker.vue';
-import NewWorkerDialog from 'src/components/NewWorkerDialog.vue';
-import { useWorkersStore } from 'src/stores/workers';
-import { ref } from 'vue';
+import HomePanel from 'src/components/HomePanel.vue';
+import KanbanPanel from 'src/components/KanbanPanel.vue';
+import IWorker from 'src/interfaces/worker';
+import { provide, ref } from 'vue';
 defineOptions({
   name: 'IndexPage',
 });
 
-const workers_store = useWorkersStore();
-
-const $q = useQuasar();
 const tab = ref('home');
+const worker = ref<IWorker>();
 
-// const tarefas = ref<
-//   {
-//     descricao: string;
-//     id: string;
-//     status_id: string;
-//     projeto_id: string;
-//     user_id: string;
-//   }[]
-// >([]);
+provide('openKanbanWorker', (user: IWorker) => {
+  worker.value = user;
+  tab.value = 'kanban';
+});
 
-// const projetos = ref<
-//   {
-//     nome: string;
-//     id: string;
-//   }[]
-// >([]);
-
-const openNewWorkerDialog = () => {
-  $q.dialog({
-    component: NewWorkerDialog,
-  });
+const backHome = () => {
+  worker.value = undefined;
+  tab.value = 'home';
 };
 </script>

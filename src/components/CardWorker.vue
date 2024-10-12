@@ -1,10 +1,26 @@
 <template>
   <q-card flat bordered class="full-height" style="min-height: 200px">
-    <q-card-section>
-      <span>{{ colaborador.nome }}</span>
+    <q-card-section class="row justify-between">
+      <span>{{ worker.nome }}</span>
+      <div>
+        <q-btn
+          icon="mdi-table-large"
+          color="secondary"
+          outline
+          dense
+          class="q-mr-sm"
+          @click="openKanban"
+        />
+        <q-btn
+          icon="mdi-plus"
+          color="secondary"
+          dense
+          @click="openNewTaskDialog"
+        />
+      </div>
     </q-card-section>
     <q-card-section>
-      <CardTask v-for="tarefa in tarefas" :key="tarefa.id" :task="tarefa" />
+      <CardTask v-for="task in tasks" :key="task.id" :task="task" />
     </q-card-section>
   </q-card>
 </template>
@@ -12,22 +28,38 @@
 <script setup lang="ts">
 import IWorker from 'src/interfaces/worker';
 import CardTask from './CardTask.vue';
-import { onMounted, ref } from 'vue';
+import { computed, inject } from 'vue';
 import { useTasksStore } from 'src/stores/tasks';
-import ITask from 'src/interfaces/task';
+import { useQuasar } from 'quasar';
+import NewTaskDialog from './NewTaskDialog.vue';
 
-interface props {
-  colaborador: IWorker;
+interface IProps {
+  worker: IWorker;
 }
 
-const props = withDefaults(defineProps<props>(), {});
+const props = withDefaults(defineProps<IProps>(), {});
+
+const openKanbanWorker = inject<(worker: IWorker) => void>('openKanbanWorker');
 
 const tasks_store = useTasksStore();
+const $q = useQuasar();
 
-const tarefas = ref<ITask[]>([]);
-
-onMounted(() => {
-  if (props.colaborador?.id)
-    tarefas.value = tasks_store.getTasksByUserId(props.colaborador?.id);
+const tasks = computed(() => {
+  return tasks_store.tasks.filter((item) => item.worker_id == props.worker?.id);
 });
+
+const openNewTaskDialog = () => {
+  $q.dialog({
+    component: NewTaskDialog,
+    componentProps: {
+      worker: props.worker,
+    },
+  });
+};
+
+const openKanban = () => {
+  if (openKanbanWorker) {
+    openKanbanWorker(props.worker);
+  }
+};
 </script>

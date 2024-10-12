@@ -15,7 +15,7 @@ export const useTasksStore = defineStore('tasks', () => {
   };
 
   const getTasksByUserId = (id: string) => {
-    return tasks.value.filter((item) => item.user_id == id);
+    return tasks.value.filter((item) => item.worker_id == id);
   };
 
   const updateDataTasks = () => {
@@ -30,10 +30,28 @@ export const useTasksStore = defineStore('tasks', () => {
     }
   };
 
+  const updateTask = (id: string, values: ITask) => {
+    const indexTask = tasks.value.findIndex((item) => item.id === id);
+    if (indexTask > -1) {
+      tasks.value[indexTask] = {
+        ...tasks.value[indexTask],
+        ...values,
+      };
+    }
+    updateDataTasks();
+  };
+
+  const deleteTask = (id: string) => {
+    const indexTask = tasks.value.findIndex((item) => item.id === id);
+    tasks.value.splice(indexTask, 1);
+  };
+
   return {
     tasks,
     addNewTask,
     getTasksByUserId,
     setTasksData,
+    updateTask,
+    deleteTask,
   };
 });

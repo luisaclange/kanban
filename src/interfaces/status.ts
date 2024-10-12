@@ -1,6 +1,6 @@
 interface IStatus {
-  descricao: string;
-  color: string;
+  descricao?: string;
+  color?: string;
 }
 
 export default IStatus;
