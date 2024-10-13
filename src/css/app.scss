@@ -1,1 +1,11 @@
 // app global css in SCSS form
+@import './theme';
+
+* {
+  font-family: 'Afacad Flux', sans-serif;
+  font-size: large;
+}
+
+.gradientBackground {
+  background-image: linear-gradient(#27dc5f, #27dc5f20);
+}

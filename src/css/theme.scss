@@ -1,0 +1,24 @@
+@use 'sass:map';
+
+$colors: (
+  primary: #1ba746,
+
+  secondary: #ad0df2,
+
+  positive: #21ba45,
+
+  dark: #212131,
+  dark-page: #15151f,
+
+  card-color: #35354e,
+);
+
+@each $name, $color in $colors {
+  .bg-#{$name} {
+    background: $color !important;
+  }
+
+  .text-#{$name} {
+    color: $color !important;
+  }
+}

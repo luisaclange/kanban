@@ -1,34 +1,65 @@
 <template>
   <q-card flat bordered class="full-height" style="min-height: 200px">
-    <q-card-section class="row justify-between">
-      <span>{{ worker.name }}</span>
+    <q-card-section class="row justify-between items-center">
+      <span class="text-h6">{{ worker.name }}</span>
       <div>
         <q-btn
-          icon="mdi-pencil-outline"
           color="secondary"
-          outline
+          flat
           dense
           class="q-mr-sm"
           @click="openEditWorkerDialog"
-        />
+        >
+          <q-icon name="mdi-pencil-outline" size="sm" />
+        </q-btn>
+        <q-btn color="secondary" flat dense class="q-mr-sm" @click="openKanban">
+          <q-icon name="mdi-table-large" size="sm" />
+        </q-btn>
         <q-btn
-          icon="mdi-table-large"
           color="secondary"
-          outline
+          style="border-radius: 100%"
           dense
-          class="q-mr-sm"
-          @click="openKanban"
-        />
-        <q-btn
-          icon="mdi-plus"
-          color="secondary"
-          dense
+          class="q-ml-sm"
           @click="openNewTaskDialog"
-        />
+        >
+          <q-icon name="mdi-plus" size="sm" />
+        </q-btn>
       </div>
     </q-card-section>
-    <q-card-section>
-      <CardTask v-for="task in tasks" :key="task.id" :task="task" />
+    <q-card-section class="q-py-none">
+      <q-separator />
+    </q-card-section>
+    <q-card-section
+      v-if="tasks.tasksEmAndamento.length > 0"
+      class="flex"
+      style="min-height: inherit"
+    >
+      <CardTask :task="tasks.tasksEmAndamento[0]" />
+      <div v-if="tasks.tasksEmAndamento.length > 1">
+        <span>+ {{ tasks.tasksEmAndamento.length - 1 }}</span>
+      </div>
+    </q-card-section>
+    <q-card-section
+      v-else
+      class="flex justify-center items-center q-py-none"
+      style="min-height: inherit"
+    >
+      <div class="column items-center">
+        <q-icon name="mdi-clock-outline" size="sm" class="q-mb-sm" />
+        <span class="text-center text-body2">
+          Não há nenhuma tarefa em andamento no momento
+        </span>
+      </div>
+    </q-card-section>
+    <q-card-section class="q-pt-none row">
+      <div class="row items-center justify-center q-mr-md text-orange">
+        <q-icon name="mdi-timer-sand-empty" class="q-mr-xs" />
+        <span>{{ tasks.tasksAFazer }}</span>
+      </div>
+      <div class="row items-center justify-center q-mr-sm text-positive">
+        <q-icon name="mdi-checkbox-marked-outline" class="q-mr-xs" />
+        <span>{{ tasks.tasksConcluidas }}</span>
+      </div>
     </q-card-section>
   </q-card>
 </template>
@@ -54,7 +85,21 @@ const tasks_store = useTasksStore();
 const $q = useQuasar();
 
 const tasks = computed(() => {
-  return tasks_store.tasks.filter((item) => item.worker_id == props.worker?.id);
+  const tasksEmAndamento = tasks_store.tasks
+    .filter((item) => item.worker_id == props.worker?.id)
+    .filter((item) => item.status == 'Em andamento');
+
+  const tasksAFazer = tasks_store.tasks
+    .filter((item) => item.worker_id == props.worker?.id)
+    .filter(
+      (item) => item.status == 'A fazer' || item.status == 'Backlog'
+    ).length;
+
+  const tasksConcluidas = tasks_store.tasks
+    .filter((item) => item.worker_id == props.worker?.id)
+    .filter((item) => item.status == 'Finalizado').length;
+
+  return { tasksEmAndamento, tasksAFazer, tasksConcluidas };
 });
 
 const openNewTaskDialog = () => {

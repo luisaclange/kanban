@@ -1,7 +1,7 @@
 <template>
   <q-page class="column items-center">
     <div style="max-width: 1600px" class="full-width">
-      <q-tab-panels v-model="tab" animated>
+      <q-tab-panels v-model="tab" animated class="bg-transparent">
         <q-tab-panel name="home">
           <HomePanel @go-to-projects="goProjects" />
         </q-tab-panel>

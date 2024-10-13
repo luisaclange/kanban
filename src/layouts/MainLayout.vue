@@ -1,8 +1,8 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header bordered>
-      <q-toolbar>
-        <q-toolbar-title> Kanban projetos </q-toolbar-title>
+    <q-header flat class="row justify-center items-center bg-transparent">
+      <q-toolbar style="max-width: 1600px">
+        <q-toolbar-title> Logo do projeto </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
