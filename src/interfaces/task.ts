@@ -1,9 +1,9 @@
 interface ITask {
-  id?: string;
+  id?: number;
   description?: string;
   status?: string;
-  worker_id?: string;
-  project_id?: string;
+  worker_id?: number;
+  project_id?: number;
 }
 
 export default ITask;

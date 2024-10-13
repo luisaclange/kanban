@@ -30,7 +30,11 @@
             emit-value
             :disable="!!props.project"
             :rules="[rules.required]"
-          />
+          >
+            <template #no-option>
+              <q-item>Não há projetos cadastrados. Primeiro cadastre um</q-item>
+            </template>
+          </q-select>
           <q-select
             label="Status"
             v-model="form.status"
@@ -94,10 +98,10 @@ defineEmits([...useDialogPluginComponent.emits]);
 const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent();
 
 const form = ref<{
-  worker_id?: string;
+  worker_id?: number;
   description?: string;
   status?: string;
-  project_id?: string;
+  project_id?: number;
 }>({
   worker_id: props.worker?.id || props.task?.worker_id,
   description: props.task?.description,

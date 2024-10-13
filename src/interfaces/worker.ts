@@ -1,5 +1,5 @@
 interface IWorker {
-  id?: string;
+  id?: number;
   name?: string;
 }
 

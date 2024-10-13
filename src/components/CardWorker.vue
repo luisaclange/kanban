@@ -31,11 +31,15 @@
     </q-card-section>
     <q-card-section
       v-if="tasks.tasksEmAndamento.length > 0"
-      class="flex"
+      class="flex q-pb-none column justify-between"
       style="min-height: inherit"
     >
       <CardTask :task="tasks.tasksEmAndamento[0]" />
-      <div v-if="tasks.tasksEmAndamento.length > 1">
+      <div
+        v-if="tasks.tasksEmAndamento.length > 1"
+        style="height: fit-content"
+        class="row justify-end full-width"
+      >
         <span>+ {{ tasks.tasksEmAndamento.length - 1 }}</span>
       </div>
     </q-card-section>

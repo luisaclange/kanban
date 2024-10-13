@@ -1,5 +1,5 @@
 interface IProject {
-  id?: string;
+  id?: number;
   description?: string;
 }
 

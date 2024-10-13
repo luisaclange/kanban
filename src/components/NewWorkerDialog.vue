@@ -58,15 +58,15 @@ const onOKClick = async () => {
   if (!validate) return;
 
   if (props.worker?.id) {
-    workers_store.updateWorker(props.worker?.id, form.value);
+    await workers_store.updateWorker(props.worker?.id, form.value);
   } else {
-    workers_store.addNewWorker(form.value);
+    await workers_store.addNewWorker(form.value);
   }
   onDialogOK();
 };
 
-const excludeWorker = () => {
-  if (props.worker?.id) workers_store.deleteWorker(props.worker?.id);
+const excludeWorker = async () => {
+  if (props.worker?.id) await workers_store.deleteWorker(props.worker?.id);
   onDialogOK();
 };
 </script>

@@ -1,46 +1,40 @@
 import { defineStore } from 'pinia';
-import idGenerator from 'src/helpers/idGenerator';
 import IProject from 'src/interfaces/project';
 import { ref } from 'vue';
+import db from 'src/services/db';
 
 export const useProjectsStore = defineStore('projects', () => {
   const projects = ref<IProject[]>([]);
 
-  const addNewProject = (newProject: IProject) => {
-    projects.value.push({
-      ...newProject,
-      id: idGenerator(),
+  const addNewProject = async (newProject: IProject) => {
+    await db.projects.add({
+      description: newProject.description,
     });
-    updateDataProjects();
+    await setProjectsData();
   };
 
-  const updateDataProjects = () => {
-    localStorage.setItem('projects', JSON.stringify(projects.value));
+  const setProjectsData = async () => {
+    const dataProjects = await db.projects.toArray();
+    projects.value = dataProjects;
   };
 
-  const setProjectsData = () => {
-    const dataProjects = localStorage.getItem('projects');
-    if (dataProjects) {
-      const dataObjectProjects = JSON.parse(dataProjects);
-      projects.value = dataObjectProjects || [];
-    }
-  };
-
-  const updateProject = (id: string, values: IProject) => {
+  const updateProject = async (id: number, values: IProject) => {
     const indexProject = projects.value.findIndex((item) => item.id === id);
     if (indexProject > -1) {
+      await db.projects.update(id, values);
       projects.value[indexProject] = {
         ...projects.value[indexProject],
         ...values,
       };
     }
-    updateDataProjects();
   };
 
-  const deleteProject = (id: string) => {
+  const deleteProject = async (id: number) => {
     const indexProject = projects.value.findIndex((item) => item.id === id);
-    projects.value.splice(indexProject, 1);
-    updateDataProjects();
+    if (indexProject > -1) {
+      await db.projects.delete(id);
+      projects.value.splice(indexProject, 1);
+    }
   };
 
   return {
