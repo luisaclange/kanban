@@ -36,7 +36,7 @@
       class="flex q-pb-none column justify-between"
       style="min-height: inherit"
     >
-      <CardTask :task="tasks.tasksEmAndamento[0]" />
+      <CardTask :task="tasks.tasksEmAndamento[0]" is-project />
       <div
         v-if="tasks.tasksEmAndamento.length > 1"
         style="height: fit-content"
@@ -57,7 +57,7 @@
         </span>
       </div>
     </q-card-section>
-    <q-card-section class="q-pt-none row">
+    <q-card-section class="q-pt-sm row">
       <div class="row items-center justify-center q-mr-md text-orange">
         <q-icon name="mdi-timer-sand-empty" class="q-mr-xs" />
         <span>{{ tasks.tasksAFazer }}</span>

@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <div class="row">
+  <div
+    class="full-height full-width q-pa-md column"
+    style="min-height: inherit"
+  >
+    <div class="row items-center">
       <q-btn
         flat
         dense
@@ -8,16 +11,25 @@
         class="q-mr-md"
         @click="emit('back')"
       />
-      <span v-if="worker">Colaborador: {{ worker.name }}</span>
-      <span v-if="project">Projeto: {{ project.description }}</span>
+      <div class="row items-center">
+        <q-icon name="mdi-table-large" size="lg" class="q-mr-md" />
+        <span v-if="worker" class="text-h4">
+          Colaborador: {{ worker.name }}
+        </span>
+        <span v-if="project" class="text-h4">
+          Projeto: {{ project.description }}
+        </span>
+      </div>
     </div>
 
-    <div class="row" style="height: 100%">
+    <q-separator class="q-mt-sm q-mb-lg" />
+
+    <div class="row full-height" style="flex: 1" flat>
       <div
         v-for="status in statusData"
         :key="status.description"
         class="q-pa-sm col-3"
-        style="height: 100%"
+        style="min-height: inherit"
       >
         <CardStatus :status="status" :worker="worker" :project="project" />
       </div>

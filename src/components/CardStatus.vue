@@ -1,10 +1,24 @@
 <template>
-  <q-card flat bordered class="full-height">
+  <q-card flat bordered class="full-height flex column">
     <q-card-section class="row justify-between">
-      {{ status.description }}
+      <q-badge :color="status.color" text-color="black" class="text-h5">
+        {{ status.description }}
+      </q-badge>
     </q-card-section>
-    <q-card-section>
-      <CardTask v-for="task in tasks" :key="task.id" :task="task" />
+    <q-card-section class="q-py-none">
+      <q-separator />
+    </q-card-section>
+    <q-card-section style="flex: 1">
+      <q-scroll-area style="height: 100%">
+        <CardTask
+          v-for="task in tasks"
+          :key="task.id"
+          :task="task"
+          kanban-mode
+          :is-worker="!!worker"
+          :is-project="!!project"
+        />
+      </q-scroll-area>
     </q-card-section>
   </q-card>
 </template>

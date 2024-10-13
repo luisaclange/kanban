@@ -6,12 +6,9 @@
     @click="openNewTaskDialog"
   >
     <q-card-section>
-      <span class="text-body1">{{ projeto }}</span>
-    </q-card-section>
-    <q-card-section class="q-py-none">
       <span class="text-h5">{{ task.description }}</span>
     </q-card-section>
-    <q-card-section>
+    <q-card-section v-if="!kanbanMode" class="q-pt-none">
       <q-badge
         class="text-caption text-bold"
         :color="color"
@@ -20,6 +17,17 @@
       >
         {{ task.status }}
       </q-badge>
+    </q-card-section>
+    <q-card-section class="q-py-none">
+      <q-separator />
+    </q-card-section>
+    <q-card-section v-if="isWorker">
+      <q-icon name="mdi-cards-outline" class="q-mr-sm" />
+      <span class="text-body2">{{ projeto }}</span>
+    </q-card-section>
+    <q-card-section v-if="isProject">
+      <q-icon name="mdi-account-outline" class="q-mr-sm" />
+      <span class="text-body2">{{ colaborador }}</span>
     </q-card-section>
   </q-card>
 </template>
@@ -31,13 +39,18 @@ import NewTaskDialog from './NewTaskDialog.vue';
 import { computed } from 'vue';
 import { useProjectsStore } from 'src/stores/projects';
 import statusData from 'src/constants/statusData';
+import { useWorkersStore } from 'src/stores/workers';
 
 const $q = useQuasar();
 
 const projects_store = useProjectsStore();
+const worker_store = useWorkersStore();
 
 interface IProps {
   task: ITask;
+  isWorker?: boolean;
+  isProject?: boolean;
+  kanbanMode?: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
@@ -55,6 +68,11 @@ const projeto = computed(() => {
   return projects_store.projects.find(
     (item) => item.id == props.task?.project_id
   )?.description;
+});
+
+const colaborador = computed(() => {
+  return worker_store.workers.find((item) => item.id == props.task?.worker_id)
+    ?.name;
 });
 
 const color = computed(() => {

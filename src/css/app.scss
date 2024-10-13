@@ -9,3 +9,8 @@
 .gradientBackground {
   background-image: linear-gradient(#27dc5f, #27dc5f20);
 }
+
+.q-panel {
+  display: flex;
+  min-height: inherit;
+}

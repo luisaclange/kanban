@@ -1,14 +1,26 @@
 <template>
   <q-page class="column items-center">
-    <div style="max-width: 1600px" class="full-width">
-      <q-tab-panels v-model="tab" animated class="bg-transparent">
+    <div
+      style="max-width: 1600px; min-height: inherit"
+      class="full-width full-height"
+    >
+      <q-tab-panels
+        v-model="tab"
+        animated
+        class="bg-transparent"
+        style="min-height: inherit; display: flex"
+      >
         <q-tab-panel name="home">
           <HomePanel @go-to-projects="goProjects" />
         </q-tab-panel>
         <q-tab-panel name="projects">
           <ProjectsPanel @back="back" />
         </q-tab-panel>
-        <q-tab-panel name="kanban">
+        <q-tab-panel
+          name="kanban"
+          class="q-pa-none"
+          style="min-height: inherit"
+        >
           <KanbanPanel :worker="worker" :project="project" @back="back" />
         </q-tab-panel>
       </q-tab-panels>
