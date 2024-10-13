@@ -1,7 +1,7 @@
 <template>
   <q-card flat bordered class="full-height">
     <q-card-section class="row justify-between">
-      {{ status.descricao }}
+      {{ status.description }}
     </q-card-section>
     <q-card-section>
       <CardTask v-for="task in tasks" :key="task.id" :task="task" />
@@ -15,20 +15,31 @@ import IWorker from 'src/interfaces/worker';
 import { useTasksStore } from 'src/stores/tasks';
 import { computed } from 'vue';
 import CardTask from './CardTask.vue';
+import IProject from 'src/interfaces/project';
 
 interface IProps {
   status: IStatus;
   worker?: IWorker;
+  project?: IProject;
 }
 const props = withDefaults(defineProps<IProps>(), {});
 
 const tasks_store = useTasksStore();
 
 const tasks = computed(() => {
-  return tasks_store.tasks.filter(
-    (item) =>
-      item.worker_id == props.worker?.id &&
-      item.status == props.status.descricao
+  let dataFiltrada = tasks_store.tasks.filter(
+    (item) => item.status == props.status.description
   );
+  if (props.worker) {
+    dataFiltrada = dataFiltrada.filter(
+      (item) => item.worker_id === props.worker?.id
+    );
+  }
+  if (props.project) {
+    dataFiltrada = dataFiltrada.filter(
+      (item) => item.project_id === props.project?.id
+    );
+  }
+  return dataFiltrada;
 });
 </script>

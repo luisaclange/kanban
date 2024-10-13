@@ -1,6 +1,6 @@
 interface IProject {
   id?: string;
-  descricao?: string;
+  description?: string;
 }
 
 export default IProject;

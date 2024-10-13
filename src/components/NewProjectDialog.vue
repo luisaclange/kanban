@@ -2,15 +2,15 @@
   <q-dialog ref="dialogRef" @hide="onDialogHide">
     <q-card class="q-dialog-plugin">
       <q-card-section>
-        <q-input label="Nome" v-model="form.name" />
+        <q-input label="Descrição" v-model="form.description" />
       </q-card-section>
       <q-card-actions align="right">
         <q-btn
-          v-if="worker"
+          v-if="project"
           color="primary"
           label="Excluir"
           outline
-          @click="excludeWorker"
+          @click="excludeProject"
         />
         <q-space />
         <q-btn color="primary" label="OK" @click="onOKClick" />
@@ -21,39 +21,42 @@
 
 <script setup lang="ts">
 import { useDialogPluginComponent } from 'quasar';
-import IWorker from 'src/interfaces/worker';
-import { useWorkersStore } from 'src/stores/workers';
+import IProject from 'src/interfaces/project';
+import { useProjectsStore } from 'src/stores/projects';
 import { ref } from 'vue';
 
 interface IProps {
-  worker?: IWorker;
+  project?: IProject;
 }
+const projects_store = useProjectsStore();
 
 const props = withDefaults(defineProps<IProps>(), {});
-
-const form = ref<{
-  name?: string;
-}>({
-  name: props.worker?.name,
-});
 
 defineEmits([...useDialogPluginComponent.emits]);
 
 const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent();
 
-const workers_store = useWorkersStore();
+const form = ref<{
+  description?: string;
+}>({
+  description: props.project?.description,
+});
 
 function onOKClick() {
-  if (props.worker?.id) {
-    workers_store.updateWorker(props.worker?.id, form.value);
+  const data: IProject = {
+    description: form.value?.description,
+  };
+
+  if (props.project?.id) {
+    projects_store.updateProject(props.project?.id, data);
   } else {
-    workers_store.addNewWorker(form.value);
+    projects_store.addNewProject(data);
   }
   onDialogOK();
 }
 
-const excludeWorker = () => {
-  if (props.worker?.id) workers_store.deleteWorker(props.worker?.id);
+function excludeProject() {
+  if (props.project?.id) projects_store.deleteProject(props.project?.id);
   onDialogOK();
-};
+}
 </script>

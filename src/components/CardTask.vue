@@ -4,7 +4,7 @@
       <!-- <q-badge>{{ task.projeto }}</q-badge> -->
       <q-badge>{{ task.status }}</q-badge>
     </q-card-section>
-    <q-card-section>{{ task.descricao }}</q-card-section>
+    <q-card-section>{{ task.description }}</q-card-section>
   </q-card>
 </template>
 

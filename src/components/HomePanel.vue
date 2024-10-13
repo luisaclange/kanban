@@ -1,6 +1,10 @@
 <template>
   <div>
-    <span>Colaboradores</span>
+    <div class="row justify-between">
+      <span>Colaboradores</span>
+
+      <q-btn label="Projetos" @click="emit('goToProjects')" />
+    </div>
 
     <div class="row">
       <div
@@ -34,6 +38,8 @@ import NewWorkerDialog from './NewWorkerDialog.vue';
 
 const $q = useQuasar();
 const workers_store = useWorkersStore();
+
+const emit = defineEmits(['goToProjects']);
 
 const openNewWorkerDialog = () => {
   $q.dialog({

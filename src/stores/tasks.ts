@@ -44,6 +44,7 @@ export const useTasksStore = defineStore('tasks', () => {
   const deleteTask = (id: string) => {
     const indexTask = tasks.value.findIndex((item) => item.id === id);
     tasks.value.splice(indexTask, 1);
+    updateDataTasks();
   };
 
   return {

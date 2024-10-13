@@ -2,19 +2,19 @@ import IStatus from 'src/interfaces/status';
 
 const statusData: IStatus[] = [
   {
-    descricao: 'Backlog',
+    description: 'Backlog',
     color: 'purple',
   },
   {
-    descricao: 'A fazer',
+    description: 'A fazer',
     color: 'orange',
   },
   {
-    descricao: 'Em andamento',
+    description: 'Em andamento',
     color: 'yellow',
   },
   {
-    descricao: 'Finalizado',
+    description: 'Finalizado',
     color: 'green',
   },
 ];

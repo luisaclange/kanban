@@ -1,6 +1,6 @@
 interface ITask {
   id?: string;
-  descricao?: string;
+  description?: string;
   status?: string;
   worker_id?: string;
   project_id?: string;

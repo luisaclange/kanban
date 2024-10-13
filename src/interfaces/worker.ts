@@ -1,6 +1,6 @@
 interface IWorker {
   id?: string;
-  nome?: string;
+  name?: string;
 }
 
 export default IWorker;

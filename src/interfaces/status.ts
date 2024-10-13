@@ -1,5 +1,5 @@
 interface IStatus {
-  descricao?: string;
+  description?: string;
   color?: string;
 }
 

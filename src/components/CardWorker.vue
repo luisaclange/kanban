@@ -1,8 +1,16 @@
 <template>
   <q-card flat bordered class="full-height" style="min-height: 200px">
     <q-card-section class="row justify-between">
-      <span>{{ worker.nome }}</span>
+      <span>{{ worker.name }}</span>
       <div>
+        <q-btn
+          icon="mdi-pencil-outline"
+          color="secondary"
+          outline
+          dense
+          class="q-mr-sm"
+          @click="openEditWorkerDialog"
+        />
         <q-btn
           icon="mdi-table-large"
           color="secondary"
@@ -32,6 +40,7 @@ import { computed, inject } from 'vue';
 import { useTasksStore } from 'src/stores/tasks';
 import { useQuasar } from 'quasar';
 import NewTaskDialog from './NewTaskDialog.vue';
+import NewWorkerDialog from './NewWorkerDialog.vue';
 
 interface IProps {
   worker: IWorker;
@@ -51,6 +60,15 @@ const tasks = computed(() => {
 const openNewTaskDialog = () => {
   $q.dialog({
     component: NewTaskDialog,
+    componentProps: {
+      worker: props.worker,
+    },
+  });
+};
+
+const openEditWorkerDialog = () => {
+  $q.dialog({
+    component: NewWorkerDialog,
     componentProps: {
       worker: props.worker,
     },
