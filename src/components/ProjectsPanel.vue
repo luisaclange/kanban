@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row">
+    <div class="row items-center">
       <q-btn
         flat
         dense
@@ -8,8 +8,13 @@
         class="q-mr-md"
         @click="emit('back')"
       />
-      <span>Projetos</span>
+      <div class="row items-center">
+        <q-icon name="mdi-cards-outline" size="lg" class="q-mr-md" />
+        <span class="text-h4">Projetos</span>
+      </div>
     </div>
+
+    <q-separator class="q-mt-sm q-mb-lg" />
 
     <div class="row">
       <div
@@ -25,7 +30,7 @@
           flat
           bordered
           class="full-height flex justify-center items-center"
-          style="border-style: dashed; min-height: 200px"
+          style="border-style: dashed; min-height: 300px; cursor: pointer"
           @click="openNewProjectDialog"
         >
           <q-icon name="mdi-plus" size="xl" />

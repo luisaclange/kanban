@@ -31,7 +31,7 @@
           flat
           bordered
           class="full-height flex justify-center items-center"
-          style="border-style: dashed; min-height: 200px; cursor: pointer"
+          style="border-style: dashed; min-height: 300px; cursor: pointer"
           @click="openNewWorkerDialog"
         >
           <q-icon name="mdi-plus" size="xl" />

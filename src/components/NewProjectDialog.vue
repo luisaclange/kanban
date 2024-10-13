@@ -1,10 +1,22 @@
 <template>
   <q-dialog ref="dialogRef" @hide="onDialogHide">
-    <q-card class="q-dialog-plugin">
-      <q-card-section>
-        <q-input label="Descrição" v-model="form.description" />
+    <q-card class="q-dialog-plugin" flat style="min-width: 600px">
+      <q-card-section class="row justify-between items-center">
+        <span class="text-h5">
+          {{ project ? 'Editar projeto' : 'Novo projeto' }}
+        </span>
+        <q-btn dense flat icon="mdi-close" @click="onDialogHide" />
       </q-card-section>
-      <q-card-actions align="right">
+      <q-card-section>
+        <q-form ref="formRef">
+          <q-input
+            label="Descrição"
+            v-model="form.description"
+            :rules="[rules.required]"
+          />
+        </q-form>
+      </q-card-section>
+      <q-card-actions class="q-pa-md">
         <q-btn
           v-if="project"
           color="primary"
@@ -21,6 +33,7 @@
 
 <script setup lang="ts">
 import { useDialogPluginComponent } from 'quasar';
+import rules from 'src/helpers/rules';
 import IProject from 'src/interfaces/project';
 import { useProjectsStore } from 'src/stores/projects';
 import { ref } from 'vue';
@@ -42,21 +55,26 @@ const form = ref<{
   description: props.project?.description,
 });
 
-function onOKClick() {
+const formRef = ref();
+
+const onOKClick = async () => {
+  const validate = await formRef.value.validate();
+  if (!validate) return;
+
   const data: IProject = {
     description: form.value?.description,
   };
 
   if (props.project?.id) {
-    projects_store.updateProject(props.project?.id, data);
+    await projects_store.updateProject(props.project?.id, data);
   } else {
-    projects_store.addNewProject(data);
+    await projects_store.addNewProject(data);
   }
   onDialogOK();
-}
+};
 
-function excludeProject() {
-  if (props.project?.id) projects_store.deleteProject(props.project?.id);
+const excludeProject = async () => {
+  if (props.project?.id) await projects_store.deleteProject(props.project?.id);
   onDialogOK();
-}
+};
 </script>

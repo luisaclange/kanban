@@ -124,16 +124,15 @@ const onOKClick = async () => {
   console.log(data);
 
   if (props.task?.id) {
-    tasks_store.updateTask(props.task?.id, data);
+    await tasks_store.updateTask(props.task?.id, data);
   } else {
-    console.log('chegou aquii');
-    tasks_store.addNewTask(data);
+    await tasks_store.addNewTask(data);
   }
   onDialogOK();
 };
 
-function excludeTask() {
-  if (props.task?.id) tasks_store.deleteTask(props.task?.id);
+const excludeTask = async () => {
+  if (props.task?.id) await tasks_store.deleteTask(props.task?.id);
   onDialogOK();
-}
+};
 </script>
