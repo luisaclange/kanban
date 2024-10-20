@@ -1,6 +1,6 @@
 <template>
   <q-card flat bordered class="full-height" style="min-height: 200px">
-    <q-card-section class="row justify-between items-center">
+    <q-card-section class="row justify-between items-center no-wrap">
       <span class="text-h6">{{ project.description }}</span>
 
       <div>

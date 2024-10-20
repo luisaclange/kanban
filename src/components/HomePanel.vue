@@ -1,18 +1,29 @@
 <template>
   <div>
-    <div class="row justify-between">
+    <div class="row justify-between no-wrap">
       <div class="row items-center">
-        <q-icon name="mdi-account-group-outline" size="lg" class="q-mr-md" />
-        <span class="text-h4">Colaboradores</span>
+        <q-icon
+          name="mdi-account-group-outline"
+          :size="$q.screen.lt.sm ? 'md' : 'lg'"
+          class="q-mr-md"
+        />
+        <span :class="$q.screen.lt.sm ? 'text-h5' : 'text-h4'">
+          Colaboradores
+        </span>
       </div>
 
       <q-btn
         color="primary"
-        label="Projetos"
-        icon="mdi-cards-outline"
         class="text-body1 text-bold"
+        :dense="$q.screen.lt.sm"
         @click="emit('goToProjects')"
-      />
+      >
+        <q-icon
+          name="mdi-cards-outline"
+          :class="$q.screen.lt.sm ? '' : 'q-mr-sm'"
+        />
+        <span v-if="!$q.screen.lt.sm">Projetos</span>
+      </q-btn>
     </div>
 
     <q-separator class="q-mt-sm q-mb-lg" />
@@ -21,12 +32,12 @@
       <div
         v-for="worker in workers_store.workers"
         :key="worker.id"
-        class="q-pa-sm col-3"
+        class="q-pa-sm col-lg-3 col-md-4 col-sm-6 col-12"
       >
         <CardWorker :worker="worker" />
       </div>
 
-      <div class="q-pa-sm col-3">
+      <div class="q-pa-sm col-lg-3 col-md-4 col-sm-6 col-12">
         <q-card
           flat
           bordered

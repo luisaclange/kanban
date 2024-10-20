@@ -1,6 +1,6 @@
 <template>
   <q-dialog ref="dialogRef" @hide="onDialogHide">
-    <q-card class="q-dialog-plugin" flat style="min-width: 600px">
+    <q-card class="q-dialog-plugin" flat style="max-width: 600px; width: 100%">
       <q-card-section class="row justify-between items-center">
         <span class="text-h5">
           {{ worker ? 'Atualizar colaborador' : 'Novo colaborador' }}

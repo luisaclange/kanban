@@ -1,9 +1,9 @@
 <template>
   <div
-    class="full-height full-width q-pa-md column"
+    class="full-height full-width q-pa-md flex column"
     style="min-height: inherit"
   >
-    <div class="row items-center">
+    <div class="row items-center no-wrap">
       <q-btn
         flat
         dense
@@ -11,34 +11,54 @@
         class="q-mr-md"
         @click="emit('back')"
       />
-      <div class="row items-center">
-        <q-icon name="mdi-table-large" size="lg" class="q-mr-md" />
-        <span v-if="worker" class="text-h4">
-          Colaborador: {{ worker.name }}
+      <div class="row items-center no-wrap">
+        <q-icon
+          name="mdi-table-large"
+          :size="$q.screen.lt.sm ? 'md' : 'lg'"
+          class="q-mr-md"
+        />
+        <span v-if="worker" :class="$q.screen.lt.sm ? 'text-h5' : 'text-h4'">
+          Colaborador
         </span>
-        <span v-if="project" class="text-h4">
-          Projeto: {{ project.description }}
+        <span v-if="project" :class="$q.screen.lt.sm ? 'text-h5' : 'text-h4'">
+          Projeto
         </span>
       </div>
     </div>
 
     <q-separator class="q-mt-sm q-mb-lg" />
 
-    <div class="row full-height" style="flex: 1" flat v-if="!loading">
-      <div
-        v-for="status in statusData"
-        :key="status.description"
-        class="q-pa-sm col-3"
-        style="min-height: inherit"
-      >
-        <CardStatus
-          :status="status"
-          v-model="tasks[status.description]"
-          :worker="worker"
-          :project="project"
-        />
-      </div>
+    <div class="row no-wrap q-mb-md justify-end items-center">
+      <span v-if="worker" :class="$q.screen.lt.sm ? 'text-h6' : 'text-h5'">
+        {{ worker.name }}
+      </span>
+      <span v-if="project" :class="$q.screen.lt.sm ? 'text-h6' : 'text-h5'">
+        {{ project.description }}
+      </span>
     </div>
+
+    <q-scroll-area class="full-height bg-red flex" style="flex: 1">
+      <div
+        class="row full-height no-wrap bg-green"
+        style="flex: 1; min-height: 100vh"
+        flat
+        v-if="!loading"
+      >
+        <div
+          v-for="status in statusData"
+          :key="status.description"
+          class="q-pa-sm col-3"
+          style="min-height: inherit; min-width: 300px"
+        >
+          <CardStatus
+            :status="status"
+            v-model="tasks[status.description]"
+            :worker="worker"
+            :project="project"
+          />
+        </div>
+      </div>
+    </q-scroll-area>
   </div>
 </template>
 
@@ -50,8 +70,10 @@ import IProject from 'src/interfaces/project';
 import { onMounted, ref, watch } from 'vue';
 import { useTasksStore } from 'src/stores/tasks';
 import ITask from 'src/interfaces/task';
+import { useQuasar } from 'quasar';
 
 const tasks_store = useTasksStore();
+const $q = useQuasar();
 
 const emit = defineEmits(['back']);
 
