@@ -3,6 +3,7 @@
     flat
     class="bg-card-color full-width"
     style="height: max-content; flex: 1"
+    :class="bottomSpace ? 'q-mb-md' : ''"
     @click="openNewTaskDialog"
   >
     <q-card-section>
@@ -51,6 +52,7 @@ interface IProps {
   isWorker?: boolean;
   isProject?: boolean;
   kanbanMode?: boolean;
+  bottomSpace?: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});

@@ -9,18 +9,19 @@
       <q-separator />
     </q-card-section>
     <q-card-section style="flex: 1">
-      <q-scroll-area style="height: 100%">
+      <q-scroll-area style="height: 100%; display: flex">
         <draggableComponent
           v-model="tasks"
           item-key="id"
           group="status"
           :move="moveTask"
-          @start="moveTask"
+          style="min-height: inherit; flex: 1"
         >
           <template #item="{ element }">
             <CardTask
               :task="element"
               kanban-mode
+              :bottom-space="true"
               :is-worker="!!worker"
               :is-project="!!project"
             />
@@ -34,8 +35,6 @@
 <script setup lang="ts">
 import IStatus from 'src/interfaces/status';
 import IWorker from 'src/interfaces/worker';
-import { useTasksStore } from 'src/stores/tasks';
-import { onMounted, ref } from 'vue';
 import CardTask from './CardTask.vue';
 import IProject from 'src/interfaces/project';
 import draggableComponent from 'vuedraggable';
@@ -46,30 +45,11 @@ interface IProps {
   worker?: IWorker;
   project?: IProject;
 }
-const props = withDefaults(defineProps<IProps>(), {});
+withDefaults(defineProps<IProps>(), {});
 
-const tasks_store = useTasksStore();
-
-const tasks = ref<ITask[]>([]);
+const tasks = defineModel<ITask[]>();
 
 const moveTask = (e: unknown) => {
   console.log('aquiii', e);
 };
-
-onMounted(() => {
-  let dataFiltrada = tasks_store.tasks.filter(
-    (item) => item.status == props.status.description
-  );
-  if (props.worker) {
-    dataFiltrada = dataFiltrada.filter(
-      (item) => item.worker_id === props.worker?.id
-    );
-  }
-  if (props.project) {
-    dataFiltrada = dataFiltrada.filter(
-      (item) => item.project_id === props.project?.id
-    );
-  }
-  tasks.value = dataFiltrada;
-});
 </script>

@@ -24,14 +24,19 @@
 
     <q-separator class="q-mt-sm q-mb-lg" />
 
-    <div class="row full-height" style="flex: 1" flat>
+    <div class="row full-height" style="flex: 1" flat v-if="!loading">
       <div
         v-for="status in statusData"
         :key="status.description"
         class="q-pa-sm col-3"
         style="min-height: inherit"
       >
-        <CardStatus :status="status" :worker="worker" :project="project" />
+        <CardStatus
+          :status="status"
+          v-model="tasks[status.description]"
+          :worker="worker"
+          :project="project"
+        />
       </div>
     </div>
   </div>
@@ -42,6 +47,11 @@ import statusData from 'src/constants/statusData';
 import IWorker from 'src/interfaces/worker';
 import CardStatus from './CardStatus.vue';
 import IProject from 'src/interfaces/project';
+import { onMounted, ref, watch } from 'vue';
+import { useTasksStore } from 'src/stores/tasks';
+import ITask from 'src/interfaces/task';
+
+const tasks_store = useTasksStore();
 
 const emit = defineEmits(['back']);
 
@@ -50,5 +60,54 @@ interface IProps {
   project?: IProject;
 }
 
-withDefaults(defineProps<IProps>(), {});
+const props = withDefaults(defineProps<IProps>(), {});
+
+const tasks = ref<{
+  [key: string]: ITask[];
+}>({});
+const loading = ref(true);
+
+watch(
+  tasks,
+  () => {
+    statusData.forEach((status) => {
+      tasks.value[status.description].forEach(async (task) => {
+        if (task.status !== status.description) {
+          task.status = status.description;
+          if (task.id) {
+            await tasks_store.updateTask(task.id, {
+              ...task,
+            });
+          }
+        }
+      });
+    });
+  },
+  { deep: true }
+);
+
+onMounted(() => {
+  let dataFiltrada = tasks_store.tasks;
+  if (props.worker) {
+    dataFiltrada = dataFiltrada.filter(
+      (item) => item.worker_id === props.worker?.id
+    );
+  }
+  if (props.project) {
+    dataFiltrada = dataFiltrada.filter(
+      (item) => item.project_id === props.project?.id
+    );
+  }
+  let data: {
+    [key: string]: ITask[];
+  } = {};
+  statusData.forEach((status) => {
+    if (status?.description)
+      data[status.description] = dataFiltrada.filter(
+        (item) => item.status == status.description
+      );
+  });
+  tasks.value = data;
+  loading.value = false;
+});
 </script>
