@@ -37,10 +37,13 @@
       </span>
     </div>
 
-    <q-scroll-area class="full-height bg-red flex" style="flex: 1">
+    <div
+      class="full-height flex"
+      style="flex: 1; overflow-x: auto; max-width: 100%"
+    >
       <div
         class="row full-height no-wrap bg-green"
-        style="flex: 1; min-height: 100vh"
+        style="flex: 1; min-height: 100%"
         flat
         v-if="!loading"
       >
@@ -58,7 +61,7 @@
           />
         </div>
       </div>
-    </q-scroll-area>
+    </div>
   </div>
 </template>
 
