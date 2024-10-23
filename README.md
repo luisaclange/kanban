@@ -1,41 +1,17 @@
-# Quasar App (projeto-extensao)
+# KANBAN
 
-A Quasar Project
+Quadro de tarefas por projetos e colaboradores, desenvolvido durante a matéria de Projeto de Extensão I, do curso de Ciência da Computação, da UNOPAR.
 
-## Install the dependencies
+## Instale as dependências
+
 ```bash
 yarn
 # or
 npm install
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+### Inicie o aplicativo em modo de desenvolvimento
+
 ```bash
 quasar dev
 ```
-
-
-### Lint the files
-```bash
-yarn lint
-# or
-npm run lint
-```
-
-
-### Format the files
-```bash
-yarn format
-# or
-npm run format
-```
-
-
-
-### Build the app for production
-```bash
-quasar build
-```
-
-### Customize the configuration
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
