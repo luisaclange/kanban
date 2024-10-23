@@ -39,12 +39,11 @@
 
     <div
       class="full-height flex"
-      style="flex: 1; overflow-x: auto; max-width: 100%"
+      style="flex-direction: column; flex: 1; overflow-x: auto; max-width: 100%"
     >
       <div
-        class="row full-height no-wrap bg-green"
-        style="flex: 1; min-height: 100%"
-        flat
+        class="row full-height no-wrap"
+        style="flex: 1; height: 100%"
         v-if="!loading"
       >
         <div
